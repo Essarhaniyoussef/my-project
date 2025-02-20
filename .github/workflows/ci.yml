@@ -9,9 +9,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #     os: [ubuntu-latest, windows-latest, macOS-latest]
     permissions:
       contents: read
 
@@ -21,33 +18,21 @@ jobs:
     - name: Set up JDK 11 (or preferred version)
       uses: actions/setup-java@v4
       with:
-        java-version: '11'  # Update with your desired Java version (e.g., 11 or 17)
+        java-version: '11'
         distribution: 'temurin'
 
     - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      uses: gradle/actions/setup-gradle@v4
 
-    - name: Update Gradle Wrapper Version to 6.0
-      run: |
-        if [[ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' ]]; then
-          ./gradlew wrapper --gradle-version 6.0
-        elif [[ $RUNNER_OS == 'Windows' ]]; then
-          cmd.exe /c gradlew.bat wrapper --gradle-version 6.0
-        fi
-      shell: bash
-
-    - name: Build with Gradle Wrapper
-      run: |
-        if [[ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' ]]; then
-          ./gradlew build
-        elif [[ $RUNNER_OS == 'Windows' ]]; then
-          cmd.exe /c gradlew.bat build
-        fi
+    - name: Build with Gradle
+      run: ./gradlew build
       shell: bash
 
     - name: Verify JAR File
-      run: ls -l build/libs
-      shell: bash 
+      run: |
+        echo "Checking for JAR file..."
+        ls -l build/libs/
+      shell: bash
 
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
@@ -56,7 +41,6 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-       
 
   # publish:
   #   needs: build
