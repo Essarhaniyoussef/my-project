@@ -43,7 +43,7 @@ jobs:
         elif [ $RUNNER_OS == 'Windows' ]; then
           gradlew.bat build
         fi
-      shell: bash  # Using bash shell explicitly
+      shell: bash  # Use bash shell explicitly for Linux/macOS and Windows
 
   publish:
     needs: build
