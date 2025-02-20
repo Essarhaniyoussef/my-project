@@ -45,6 +45,10 @@ jobs:
         fi
       shell: bash
 
+    - name: Verify JAR File
+      run: ls -l build/libs
+      shell: bash 
+
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
