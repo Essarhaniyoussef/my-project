@@ -31,8 +31,8 @@ jobs:
       run: |
         if [[ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' ]]; then
           ./gradlew wrapper --gradle-version 6.0
-        elif [ $RUNNER_OS == 'Windows' ]; then
-          gradlew.bat wrapper --gradle-version 6.0
+        elif [[ $RUNNER_OS == 'Windows' ]]; then
+          cmd.exe /c gradlew.bat wrapper --gradle-version 6.0
         fi
       shell: bash
 
@@ -40,10 +40,10 @@ jobs:
       run: |
         if [[ $RUNNER_OS == 'Linux' || $RUNNER_OS == 'macOS' ]]; then
           ./gradlew build
-        elif [ $RUNNER_OS == 'Windows' ]; then
-          gradlew.bat build
+        elif [[ $RUNNER_OS == 'Windows' ]]; then
+          cmd.exe /c gradlew.bat build
         fi
-      shell: bash  # Use bash shell explicitly for Linux/macOS and Windows
+      shell: bash
 
   publish:
     needs: build
